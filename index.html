@@ -180,15 +180,17 @@ async function fetchHOF() {
 async function postScore(name, score) {
   try {
     const safeName = encodeURIComponent(name.toUpperCase().trim() || 'ANON');
-    await fetch(`${SHEET_URL}?action=post&name=${safeName}&score=${score}`);
+    await fetch(`${SHEET_URL}?action=post&name=${safeName}&score=${score}`, {redirect: 'follow'});
   } catch(e) {}
 }
 
 async function isHighScore(score) {
   if (score <= 0) return false;
-  const hof = await fetchHOF();
-  if (hof.length < MAX_HOF) return true;
-  return score > hof[hof.length - 1].score;
+  try {
+    const hof = await fetchHOF();
+    if (hof.length < MAX_HOF) return true;
+    return score > hof[hof.length - 1].score;
+  } catch(e) { return true; }
 }
 
 async function renderHOF() {

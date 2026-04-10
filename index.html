@@ -351,8 +351,10 @@ function startWave() {
 
 function submitName() {
   const name = document.getElementById('nameInput').value.trim() || 'ANON';
+  document.getElementById('nameSubmitBtn').disabled = true;
   postScore(name, pendingScore).then(() => {
     document.getElementById('nameEntry').style.display = 'none';
+    document.getElementById('nameSubmitBtn').disabled = false;
     showOverlay('GAME OVER', 'Score: ' + pendingScore.toLocaleString() + ' — Added to the Hall of Fame!', 'TRY AGAIN');
     document.getElementById('backBtn').style.display = 'block';
   });
